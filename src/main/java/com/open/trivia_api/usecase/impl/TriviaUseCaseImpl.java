@@ -28,11 +28,10 @@ public class TriviaUseCaseImpl implements TriviaUseCase {
         TriviaApiQuestion question = response.results().get(0);
 
         UUID id = UUID.randomUUID();
-        question.setId(id);
 
         db.put(id, question);
         return new QuestionResponse(
-                question.getId(),
+                id,
                 question.getType(),
                 question.getDifficulty(),
                 question.getCategory(),
@@ -49,7 +48,6 @@ public class TriviaUseCaseImpl implements TriviaUseCase {
         boolean isCorrect = Boolean.parseBoolean(selectedQuestion.getCorrectAnswer()) == request.answer();
 
         return new QuestionAnswerResponse(
-                selectedQuestion.getId(),
                 isCorrect,
                 selectedQuestion.getQuestion(),
                 selectedQuestion.getCorrectAnswer(),

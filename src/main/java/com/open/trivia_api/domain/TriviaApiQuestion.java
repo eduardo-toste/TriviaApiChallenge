@@ -10,8 +10,6 @@ import java.util.UUID;
 @Getter
 public class TriviaApiQuestion {
 
-    @Setter
-    private UUID id;
     private String type;
     private String difficulty;
     private String category;

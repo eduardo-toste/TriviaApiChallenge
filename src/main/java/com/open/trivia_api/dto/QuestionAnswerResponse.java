@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public record QuestionAnswerResponse(
 
-        UUID questionId,
         boolean correct,
         String question,
         String correctAnswer,
