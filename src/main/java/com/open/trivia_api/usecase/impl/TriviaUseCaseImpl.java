@@ -1,0 +1,57 @@
+package com.open.trivia_api.usecase.impl;
+
+import com.open.trivia_api.domain.TriviaApiQuestion;
+import com.open.trivia_api.dto.QuestionAnswerRequest;
+import com.open.trivia_api.dto.QuestionAnswerResponse;
+import com.open.trivia_api.dto.QuestionResponse;
+import com.open.trivia_api.dto.TriviaApiResponse;
+import com.open.trivia_api.external.client.TriviaApiClient;
+import com.open.trivia_api.usecase.TriviaUseCase;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.UUID;
+
+@Service
+public class TriviaUseCaseImpl implements TriviaUseCase {
+
+    private final TriviaApiClient client;
+    private final HashMap<UUID, TriviaApiQuestion> db = new HashMap<>();
+
+    public TriviaUseCaseImpl(TriviaApiClient client) {
+        this.client = client;
+    }
+
+    @Override
+    public QuestionResponse getQuestion() {
+        TriviaApiResponse response = client.getQuestion();
+        TriviaApiQuestion question = response.results().get(0);
+
+        UUID id = UUID.randomUUID();
+        question.setId(id);
+
+        db.put(id, question);
+        return new QuestionResponse(
+                question.getId(),
+                question.getType(),
+                question.getDifficulty(),
+                question.getCategory(),
+                question.getQuestion()
+        );
+    }
+
+    @Override
+    public QuestionAnswerResponse answerQuestion(UUID questionId, QuestionAnswerRequest request) {
+        var selectedQuestion = db.get(questionId);
+        boolean isCorrect = Boolean.parseBoolean(selectedQuestion.getCorrectAnswer()) == request.answer();
+
+        return new QuestionAnswerResponse(
+                selectedQuestion.getId(),
+                isCorrect,
+                selectedQuestion.getQuestion(),
+                selectedQuestion.getCorrectAnswer(),
+                String.valueOf(request.answer()),
+                isCorrect ? "Correct!" : "Wrong!");
+    }
+
+}
