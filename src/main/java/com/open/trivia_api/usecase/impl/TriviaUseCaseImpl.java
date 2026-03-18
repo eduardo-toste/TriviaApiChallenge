@@ -43,6 +43,9 @@ public class TriviaUseCaseImpl implements TriviaUseCase {
     @Override
     public QuestionAnswerResponse answerQuestion(UUID questionId, QuestionAnswerRequest request) {
         var selectedQuestion = db.get(questionId);
+
+        if (selectedQuestion == null) throw new RuntimeException("Question not found!");
+
         boolean isCorrect = Boolean.parseBoolean(selectedQuestion.getCorrectAnswer()) == request.answer();
 
         return new QuestionAnswerResponse(
