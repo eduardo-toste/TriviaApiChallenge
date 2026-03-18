@@ -1,8 +1,7 @@
 package com.open.trivia_api.resource;
 
-import com.open.trivia_api.domain.TriviaApiQuestion;
-import com.open.trivia_api.dto.QuestionAnswerRequest;
-import com.open.trivia_api.dto.QuestionAnswerResponse;
+import com.open.trivia_api.dto.AnswerRequest;
+import com.open.trivia_api.dto.AnswerResponse;
 import com.open.trivia_api.dto.QuestionResponse;
 import com.open.trivia_api.usecase.TriviaUseCase;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class TriviaController {
     }
 
     @PostMapping("/trivia/answer/{questionId}")
-    public ResponseEntity<QuestionAnswerResponse> answerQuestion(@PathVariable UUID questionId, @RequestBody QuestionAnswerRequest answer) {
+    public ResponseEntity<AnswerResponse> answerQuestion(@PathVariable UUID questionId, @RequestBody AnswerRequest answer) {
         var response = triviaUseCase.answerQuestion(questionId, answer);
         return ResponseEntity.ok(response);
     }

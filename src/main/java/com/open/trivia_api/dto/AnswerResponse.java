@@ -1,8 +1,6 @@
 package com.open.trivia_api.dto;
 
-import java.util.UUID;
-
-public record QuestionAnswerResponse(
+public record AnswerResponse(
 
         boolean correct,
         String question,

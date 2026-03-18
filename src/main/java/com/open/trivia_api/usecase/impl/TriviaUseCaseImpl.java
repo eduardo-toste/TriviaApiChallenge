@@ -1,8 +1,8 @@
 package com.open.trivia_api.usecase.impl;
 
 import com.open.trivia_api.domain.TriviaApiQuestion;
-import com.open.trivia_api.dto.QuestionAnswerRequest;
-import com.open.trivia_api.dto.QuestionAnswerResponse;
+import com.open.trivia_api.dto.AnswerRequest;
+import com.open.trivia_api.dto.AnswerResponse;
 import com.open.trivia_api.dto.QuestionResponse;
 import com.open.trivia_api.dto.TriviaApiResponse;
 import com.open.trivia_api.external.client.TriviaApiClient;
@@ -40,14 +40,14 @@ public class TriviaUseCaseImpl implements TriviaUseCase {
     }
 
     @Override
-    public QuestionAnswerResponse answerQuestion(UUID questionId, QuestionAnswerRequest request) {
+    public AnswerResponse answerQuestion(UUID questionId, AnswerRequest request) {
         var selectedQuestion = db.get(questionId);
 
         if (selectedQuestion == null) throw new RuntimeException("Question not found!");
 
         boolean isCorrect = Boolean.parseBoolean(selectedQuestion.getCorrectAnswer()) == request.answer();
 
-        return new QuestionAnswerResponse(
+        return new AnswerResponse(
                 isCorrect,
                 selectedQuestion.getQuestion(),
                 selectedQuestion.getCorrectAnswer(),
