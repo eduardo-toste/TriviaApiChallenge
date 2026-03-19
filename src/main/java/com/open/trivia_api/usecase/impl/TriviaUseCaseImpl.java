@@ -45,7 +45,7 @@ public class TriviaUseCaseImpl implements TriviaUseCase {
 
         if (selectedQuestion == null) throw new RuntimeException("Question not found!");
 
-        boolean isCorrect = Boolean.parseBoolean(selectedQuestion.getCorrectAnswer()) == request.answer();
+        boolean isCorrect = request.answer().equals(Boolean.parseBoolean(selectedQuestion.getCorrectAnswer()));
 
         return new AnswerResponse(
                 isCorrect,
